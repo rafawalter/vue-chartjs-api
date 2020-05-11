@@ -1,6 +1,7 @@
-# vue-npm-stats
+# vue-chartjs-api
 
-> A Vue.js project
+Let’s Build a Web App with Vue, Chart.js and an API
+https://hackernoon.com/lets-build-a-web-app-with-vue-chart-js-and-an-api-544eb81c4b44
 
 ## Build Setup
 
