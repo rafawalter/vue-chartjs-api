@@ -1,0 +1,17 @@
+# Vue.js Deployment Guide - Docker (Nginx)
+# https://cli.vuejs.org/guide/deployment.html#docker-nginx
+
+# build stage
+FROM node:lts-alpine as build-stage
+WORKDIR /app
+COPY package*.json ./
+COPY yarn.* ./
+RUN yarn install
+COPY . .
+RUN yarn run build
+
+# production stage
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
