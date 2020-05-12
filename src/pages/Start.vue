@@ -51,7 +51,7 @@ export default {
     }
   },
   mounted () {
-    if (this.$route.params.package) {
+    if (this.$route && this.$route.params && this.$route.params.package) {
       this.packageSearchText = this.$route.params.package
       this.requestData()
     }

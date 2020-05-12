@@ -10,7 +10,9 @@
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "test": "yarn run unit",
     "lint": "eslint --ext .js,.vue src test/unit",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "build-wc": "yarn vue-cli-service build --target wc --name npm-charts ./src/pages/Start.vue",
+    "build-webcomponent": "yarn build-wc"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -20,6 +22,7 @@
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
+    "@vue/cli-service": "^4.3.1",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",
