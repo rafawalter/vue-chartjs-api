@@ -40,7 +40,7 @@ export default {
   props: {},
   data () {
     return {
-      packageSearchText: null,
+      packageSearchText: 'vue',
       packageName: '',
       period: 'last-month',
       loaded: false,
@@ -53,8 +53,8 @@ export default {
   mounted () {
     if (this.$route && this.$route.params && this.$route.params.package) {
       this.packageSearchText = this.$route.params.package
-      this.requestData()
     }
+    this.requestData()
   },
   methods: {
     requestData () {
