@@ -6910,7 +6910,7 @@ mkdirp@~1.0.3:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-moment@^2.10.2:
+moment@^2.10.2, moment@^2.25.3:
   version "2.25.3"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.25.3.tgz#252ff41319cf41e47761a1a88cab30edfe9808c0"
   integrity sha512-PuYv0PHxZvzc15Sp8ybUCoQ+xpyPWvjOuK72a5ovzp2LI32rJXOiIfyoFoYvG3s6EwwrdkMyWuRiEHSZRLJNdg==
@@ -10640,6 +10640,11 @@ vue@^2.5.2:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
+
+vuejs-datepicker@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/vuejs-datepicker/-/vuejs-datepicker-1.6.2.tgz#83c1e8fd4108e7f1d01c061a7e344918f25e47ae"
+  integrity sha512-PkC4vxzFBo7i6FSCUAJfnaWOx6VkKbOqxijSGHHlWxh8FIUKEZVtFychkonVWtK3iwWfhmYtqHcwsmgxefLpLQ==
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"

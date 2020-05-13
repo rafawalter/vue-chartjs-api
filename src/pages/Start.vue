@@ -2,14 +2,29 @@
   <div class="content">
     <div class="container">
       <div class="Search__container">
-        <input
-          class="Search__input"
-          @keyup.enter="requestData"
-          placeholder="npm package name"
-          type="search" name="search"
-          v-model="packageSearchText"
-        >
-        <button class="Search__button" @click="requestData">Find</button>
+        <fieldset>
+          <div class="field">
+            <label for="search">Npm package name</label>
+            <input
+              class="Search__input"
+              @keyup.enter="requestData"
+              placeholder="npm package name"
+              type="search" id="search"
+              v-model="packageSearchText"
+            >
+          </div>
+
+          <div class="field">
+            <label for="start-date">Start date</label>
+            <datepicker placeholder="Start date" v-model="periodStart" id="start-date"></datepicker>
+          </div>
+
+          <div class="field">
+            <label for="end-date">End date</label>
+            <datepicker placeholder="End date" v-model="periodEnd" id="end-date"></datepicker>
+          </div>
+          <button class="Search__button" @click="requestData">Find</button>
+        </fieldset>
       </div>
       <div class="error-message" v-if="showError">
         {{errorMessage}}
@@ -31,23 +46,27 @@
 
 <script>
 import axios from 'axios'
+import moment from 'moment'
+import Datepicker from 'vuejs-datepicker'
 import LineChart from '@/components/LineChart'
 
 export default {
   components: {
-    LineChart
+    LineChart,
+    Datepicker
   },
   props: {},
   data () {
     return {
       packageSearchText: 'vue',
       packageName: '',
-      period: 'last-month',
       loaded: false,
       downloads: [],
       labels: [],
       showError: false,
-      errorMessage: 'Please enter a package name'
+      errorMessage: 'Please enter a package name',
+      periodStart: '',
+      periodEnd: new Date()
     }
   },
   mounted () {
@@ -55,6 +74,19 @@ export default {
       this.packageSearchText = this.$route.params.package
     }
     this.requestData()
+  },
+  computed: {
+    _endDate () {
+      return moment(this.periodEnd).format('YYYY-MM-DD')
+    },
+    _startDate () {
+      return moment(this.periodStart).format('YYYY-MM-DD')
+    },
+    period () {
+      return this.periodStart
+        ? `${this._startDate}:${this._endDate}`
+        : 'last-month'
+    }
   },
   methods: {
     requestData () {
@@ -96,5 +128,17 @@ export default {
 </script>
 
 <style scoped>
-
+  fieldset {
+    border: none;
+    display: flex;
+    align-items: center;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .Search__button {
+    /*padding: 1ch;*/
+  }
 </style>
