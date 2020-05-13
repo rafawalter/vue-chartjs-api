@@ -117,11 +117,14 @@ export default {
       this.showError = false
     },
     setURL () {
-      history.pushState(
-        {info: `npm-stats ${this.packageSearchText}`},
-        this.packageSearchText,
-        `/#/${this.packageSearchText}`
-      )
+      if (this.$route && this.$route.params && this.$route.params.package !== this.packageSearchText) {
+        this.$router.push({
+          name: 'Package',
+          params: {
+            package: this.packageSearchText
+          }
+        })
+      }
     }
   }
 }
