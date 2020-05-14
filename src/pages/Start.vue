@@ -35,6 +35,7 @@
       </div>
       <hr>
       <h1 class="title" v-if="loaded">{{ packageName }}</h1>
+
       <div class="Chart__container" v-if="loaded">
         <div class="Chart__title">
           Downloads per Day <span>{{ period }}</span>
@@ -44,6 +45,7 @@
           <LineChart v-if="loaded" :chart-data="downloads" :chart-labels="labels"></LineChart>
         </div>
       </div>
+
       <div class="Chart__container" v-if="loaded">
         <div class="Chart__title">
           Downloads per Year <span>{{ period }}</span>
@@ -53,6 +55,7 @@
           <LineChart v-if="loaded" :chart-data="downloadsYear" :chart-labels="labelsYear"></LineChart>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -60,8 +63,8 @@
 <script>
 import axios from 'axios'
 import Datepicker from 'vuejs-datepicker'
-import {dateToDay, dateBeautify, dateToYear} from '../utils/dateFormatter'
-import {getDownloadsPerYear, removeDuplicate} from '../utils/downloadFormatter'
+import {dateToDay, dateBeautify, dateToYear, dateToMonth} from '../utils/dateFormatter'
+import {groupData, removeDuplicate} from '../utils/downloadFormatter'
 import LineChart from '@/components/LineChart'
 
 export default {
@@ -77,6 +80,8 @@ export default {
       loaded: false,
       downloads: [],
       labels: [],
+      downloadsMonth: [],
+      labelsMonth: [],
       downloadsYear: [],
       labelsYear: [],
       showError: false,
@@ -104,7 +109,7 @@ export default {
     period () {
       return this.periodStart
         ? `${this._startDate}:${this._endDate}`
-        : 'last-month'
+        : 'last-year'
     },
     formattedPeriod () {
       return this.periodStart
@@ -118,8 +123,8 @@ export default {
     },
     requestData () {
       if (this.packageSearchText === null ||
-          this.package === '' ||
-          this.package === 'undefined'
+          this.packageSearchText === '' ||
+          this.packageSearchText === 'undefined'
       ) {
         this.showError = true
         return
@@ -134,6 +139,7 @@ export default {
           this.totalDownloads = this.downloads.reduce((total, download) => total + download)
           this.setURL()
           this.loaded = true
+          this.formatMonth()
           this.formatYear()
         })
         .catch(err => {
@@ -142,11 +148,17 @@ export default {
           this.showError = true
         })
     },
+    formatMonth () {
+      this.labelsMonth = this.rawData
+        .map(entry => dateToMonth(entry.day))
+        .reduce(removeDuplicate, [])
+      this.downloadsYear = groupData(this.rawData, dateToMonth)
+    },
     formatYear () {
       this.labelsYear = this.rawData
         .map(entry => dateToYear(entry.day))
         .reduce(removeDuplicate, [])
-      this.downloadsYear = getDownloadsPerYear(this.rawData)
+      this.downloadsYear = groupData(this.rawData, dateToYear)
     },
     setURL () {
       history.pushState(

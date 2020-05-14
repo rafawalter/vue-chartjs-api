@@ -1,5 +1,3 @@
-import {dateToYear} from './dateFormatter'
-
 export function removeDuplicate (array, element) {
   if (array.indexOf(element) < 0) {
     array.push(element)
@@ -7,17 +5,17 @@ export function removeDuplicate (array, element) {
   return array
 }
 
-export const getDownloadsPerYear = (data) => {
+export const groupData = (data, dateFormatter) => {
   return data.reduce((date, current) => {
-    if (date.indexOf(dateToYear(current.day)) < 0) {
-      date.push(dateToYear(current.day))
+    if (date.indexOf(dateFormatter(current.day)) < 0) {
+      date.push(dateFormatter(current.day))
     }
     return date
   }, [])
     .map((date) => {
       return {
         date: date,
-        downloads: data.filter(el => dateToYear(el.day) === date)
+        downloads: data.filter(el => dateFormatter(el.day) === date)
           .map(el => el.downloads)
           .reduce((total, download) => total + download)
       }
