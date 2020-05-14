@@ -48,6 +48,26 @@
 
       <div class="Chart__container" v-if="loaded">
         <div class="Chart__title">
+          Downloads per Week <span>{{ period }}</span>
+          <hr>
+        </div>
+        <div class="Chart__content">
+          <LineChart v-if="loaded" :chart-data="downloadsWeek" :chart-labels="labelsWeek"></LineChart>
+        </div>
+      </div>
+
+      <div class="Chart__container" v-if="loaded">
+        <div class="Chart__title">
+          Downloads per Month <span>{{ period }}</span>
+          <hr>
+        </div>
+        <div class="Chart__content">
+          <LineChart v-if="loaded" :chart-data="downloadsMonth" :chart-labels="labelsMonth"></LineChart>
+        </div>
+      </div>
+
+      <div class="Chart__container" v-if="loaded">
+        <div class="Chart__title">
           Downloads per Year <span>{{ period }}</span>
           <hr>
         </div>
@@ -63,7 +83,7 @@
 <script>
 import axios from 'axios'
 import Datepicker from 'vuejs-datepicker'
-import {dateToDay, dateBeautify, dateToYear, dateToMonth} from '../utils/dateFormatter'
+import {dateToDay, dateBeautify, dateToYear, dateToMonth, dateToWeek} from '../utils/dateFormatter'
 import {groupData, removeDuplicate} from '../utils/downloadFormatter'
 import LineChart from '@/components/LineChart'
 
@@ -80,6 +100,8 @@ export default {
       loaded: false,
       downloads: [],
       labels: [],
+      downloadsWeek: [],
+      labelsWeek: [],
       downloadsMonth: [],
       labelsMonth: [],
       downloadsYear: [],
@@ -139,6 +161,7 @@ export default {
           this.totalDownloads = this.downloads.reduce((total, download) => total + download)
           this.setURL()
           this.loaded = true
+          this.formatWeek()
           this.formatMonth()
           this.formatYear()
         })
@@ -148,11 +171,17 @@ export default {
           this.showError = true
         })
     },
+    formatWeek () {
+      this.labelsWeek = this.rawData
+        .map(entry => dateToWeek(entry.day))
+        .reduce(removeDuplicate, [])
+      this.downloadsWeek = groupData(this.rawData, dateToWeek)
+    },
     formatMonth () {
       this.labelsMonth = this.rawData
         .map(entry => dateToMonth(entry.day))
         .reduce(removeDuplicate, [])
-      this.downloadsYear = groupData(this.rawData, dateToMonth)
+      this.downloadsMonth = groupData(this.rawData, dateToMonth)
     },
     formatYear () {
       this.labelsYear = this.rawData
