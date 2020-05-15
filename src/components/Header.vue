@@ -1,7 +1,7 @@
 <template>
   <header>
       <img class='logo' src="../assets/logo.png">
-      Vue, ChartJs and API
+      Vue, ChartJs and API 3
   </header>
 </template>
 

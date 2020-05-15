@@ -1,26 +1,13 @@
-# Dockerize Vue.js app - Simple Example
-# https://vuejs.org/v2/cookbook/dockerize-vuejs-app.html#Simple-Example
-
-FROM node:lts-alpine
-
-# install simple http server for serving static content
-RUN yarn -g http-server
-
-# make the 'app' folder the current working directory
+## prepare app
+FROM node:12-alpine as build-stage
 WORKDIR /app
-
-# copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./
 COPY yarn*.lock ./
-
-# install project dependencies
 RUN yarn install
-
-# copy project files and folders to the current working directory (i.e. 'app' folder)
-COPY . .
-
-# build app for production with minification
-RUN yarn run build
-
+## update dependencies
+VOLUME ["/app"]
+RUN yarn install
+## serve
 EXPOSE 8080
-CMD [ "http-server", "dist" ]
+ENV HOST 0.0.0.0
+CMD [ "yarn", "run", "dev" ]

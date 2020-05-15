@@ -2,11 +2,13 @@
 # https://cli.vuejs.org/guide/deployment.html#docker-nginx
 
 # build stage
-FROM node:lts-alpine as build-stage
+## prepare app
+FROM node:12-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
-COPY yarn.* ./
-RUN yarn install
+COPY yarn*.lock ./
+RUN yarn install --production
+## build
 COPY . .
 RUN yarn run build
 

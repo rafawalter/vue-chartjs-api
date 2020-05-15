@@ -1,4 +1,8 @@
-ambiente="$1"
+echo \### docker-run $1 $2
+
+ambiente=${1:-dev}
+ports=${2:-8080:8080}
 project=${PWD##*/}
 image=$project-$ambiente
-docker run -it --rm --name "$image" -p 8080:8080 -v "$(pwd):/source" "$image"
+
+docker run -it --rm --name "$image" -p "$ports" -v "$(pwd):/app" "$image"
