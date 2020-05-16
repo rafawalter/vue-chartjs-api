@@ -1,1 +1,1 @@
-./docker-build-image.sh vue-cli && ./docker-open-vue-cli-shell.sh ""
+./scripts/docker-build-image.sh vue-cli && ./scripts/docker-vue-cli.sh
