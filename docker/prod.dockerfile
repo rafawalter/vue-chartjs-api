@@ -10,7 +10,7 @@ COPY yarn*.lock ./
 RUN yarn install --production
 ## build
 COPY . .
-RUN yarn run build
+RUN yarn build
 
 # production stage
 FROM nginx:stable-alpine as production-stage
